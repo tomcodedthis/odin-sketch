@@ -8,7 +8,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--black);
     color: var(--white);
-    text-align: center;
+    text-align: center;    
 }
 
 main {
@@ -16,6 +16,8 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 div {
@@ -73,7 +75,7 @@ div {
 }
 
 .grid-pixels {
-    border: 1px dotted var(--black);
+    border: 1px dotted var(--light-grey);
     background-color: var(--white);
 }
 
@@ -119,6 +121,21 @@ div {
 #color-cont {
     border: solid var(--light-grey);
     border-width: 0 10px 0 0;
+}
+
+#pen-cont{
+    justify-content: space-evenly;
+    padding-left: 20px;
+}
+
+.style-img {
+    height: auto;
+    width: 70%;
+    transition: 0.2s;
+}
+
+.style-img:hover {
+    transform: scale(1.1);
 }
 
 /* Text */
