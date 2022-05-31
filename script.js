@@ -1,293 +1,202 @@
 // Global variables
 
-const sizeBtns = document.querySelectorAll('.size-cont');
+const sizeSlider = document.getElementById('slider');
 const clearBtn = document.getElementById('clear');
-const mainCont = document.getElementById('main-cont');
 const sketchPad = document.getElementById('sketch-pad');
 const styleBtns = document.querySelectorAll('.controls');
 const pixels = document.getElementsByClassName('grid-pixels');
 
-let padSize = '40';
-let penSize = '1';
-let eraserOn = false;
 let mouseDown = 0;
+let padSize = '30';
+let penSize = '1';
+let currentColor = ['#222222'];
+let penOn = true;
+let eraserOn = false;
+let gridOn = true;
+let fillOn = false;
 
 // Global functions
 
+clearBtn.addEventListener('mouseenter', hover);     // Adds event listeners for button hover effects
+clearBtn.addEventListener('mouseleave', deHover);
+
 function hover(e) {
+
     e.currentTarget.style.backgroundColor = 'var(--lightgrey)';
 }
 
 function deHover(e) {
+
     e.currentTarget.style.backgroundColor = 'var(--white)';
 }
 
 // Size Section
 
-document.getElementById('1600').classList.add('size-select');        // Selects first size
-
-sizeBtns.forEach(button => button.addEventListener('mouseenter', (e) => {       // Size buttonhover (enter)
-
-    if (e.currentTarget.classList.contains('size-select')) {
-
-        return
-
-    } else {
-
-        hover(e);
-
-    }
-    }));
-
-sizeBtns.forEach(button => button.addEventListener('mouseleave', (e) => {       // Size buttonhover (leave)
-
-    if (e.currentTarget.classList.contains('size-select')) {
-
-        return
-
-    } else {
-
-    deHover(e); 
-
-    }
-    }));
-    
-sizeBtns.forEach(button => button.addEventListener('click', sizeChange));     // Adds click event for each size
-
-for (let i = 0; i < 1600; i++) {        // Sets default grid to 40x40
+for (let i = 0; i < (padSize * padSize); i++) {        // Sets default grid to 40x40
 
     const d = document.createElement('div');
-    d.classList.add('grid-pixels');
+    d.classList.add('grid-pixels', 'pixels-grid');
 
-    sketchPad.classList.add('grid-40');
+    sketchPad.style = `grid-template-columns: repeat(${padSize}, 1fr); grid-template-rows: repeat(${padSize}, 1fr)`;
     sketchPad.appendChild(d);
 }
 
-function sizeChange(e) {     // Function for size click event
+sizeSlider.oninput = () => {        // Sets pad size based of slider
 
-    sizeBtns.forEach(button => button.classList.remove('size-select'));
-    e.currentTarget.style.backgroundColor = '';
-    e.currentTarget.classList.add('size-select');
+    const pixels = document.querySelectorAll('.grid-pixels');       // Selects pixels & removes previous grid
+    pixels.forEach(pixel => pixel.remove());
 
-    if (e.currentTarget.id == '400') {      // Change to 20x20
+    padSize = sizeSlider.value;     // Assigns pad size to a live value
 
-        sketchPad.setAttribute('class', '');        // Adds class
-        sketchPad.classList.add('grid-20');
-        padSize = 20;
+    const textValues = document.querySelectorAll('.slide-value');       // Sets the live values for grid size
+    textValues.forEach(value => value.textContent = padSize);
 
-        const pixels = document.querySelectorAll('.grid-pixels');       // Selects pixels & removes previous grid
-        pixels.forEach(pixel => pixel.remove());
+    for (let i = 0; i < (padSize * padSize); i++) {      // Loops & set pixels to grid
 
-        for (let i = 0; i < e.currentTarget.id; i++) {      // Loops & set pixels to grid
+        const d = document.createElement('div');
+        d.classList.add('grid-pixels')
 
-            const d = document.createElement('div');
-
-            d.classList.add('grid-pixels');
-            sketchPad.appendChild(d);
+        if (gridOn == true) {
+            d.classList.add('pixels-grid');
+        } else {
+            d.classList.add('pixels-no-grid');
         }
-    
-    } else if (e.currentTarget.id == '1600') {      // Change to 30x30
 
-        sketchPad.setAttribute('class', '');        // Adds class
-        sketchPad.classList.add('grid-40');
-        padSize = 40;
-
-        const pixels = document.querySelectorAll('.grid-pixels');       // Selects pixels & removes previous grid
-        pixels.forEach(pixel => pixel.remove());
-
-        for (let i = 0; i < e.currentTarget.id; i++) {      // Loops & set pixels to grid
-
-            const d = document.createElement('div');
-            d.classList.add('grid-pixels');
-
-            sketchPad.appendChild(d);
-        }
-    } else if (e.currentTarget.id == '3600') {      // Change to 60x60
-
-        sketchPad.setAttribute('class', '');        // Adds class
-        sketchPad.classList.add('grid-60');
-        padSize = 60;
-
-        const pixels = document.querySelectorAll('.grid-pixels');       // Selects pixels & removes previous grid
-        pixels.forEach(pixel => pixel.remove());
-
-        for (let i = 0; i < e.currentTarget.id; i++) {      // Loops & set pixels to grid
-
-            const d = document.createElement('div');
-            d.classList.add('grid-pixels');
-
-            sketchPad.appendChild(d);
-        }
-    } else if (e.currentTarget.id == '6400') {     // Change to 80x80
-
-        sketchPad.setAttribute('class', '');        // Adds class
-        sketchPad.classList.add('grid-80');
-        padSize = 80;
-
-        const pixels = document.querySelectorAll('.grid-pixels');       // Selects pixels & removes previous grid
-        pixels.forEach(pixel => pixel.remove());
-
-        for (let i = 0; i < e.currentTarget.id; i++) {      // Loops & set pixels to grid
-            const d = document.createElement('div');
-            d.classList.add('grid-pixels');
-
-            sketchPad.appendChild(d);
-        }
+        sketchPad.style = `grid-template-columns: repeat(${padSize}, 1fr); grid-template-rows: repeat(${padSize}, 1fr)`;
+        sketchPad.appendChild(d);
     }
-}
+};
+
+sizeSlider.step = '5';      // Sets incriment size
 
 // Clear sketch
-
-clearBtn.addEventListener('mouseenter', hover);
-clearBtn.addEventListener('mouseleave', deHover);
 
 clearBtn.addEventListener('click', clear);
 
 function clear() {
+
     const pixels = document.getElementsByClassName('grid-pixels');
+
     for (let i = 0; i < pixels.length; i++) {
+
         pixels[i].style.backgroundColor = '';
     }
 }
 
 // Color sketch-pad
 
-document.onmousedown = function() {mouseDown = 1;};
-document.onmouseup = function() {mouseDown = 0;};
+document.onmousedown = function() { mouseDown = 1 };        // Detects whether mouse is down (drag is on)
+document.onmouseup = function() { mouseDown = 0 };
 
-document.addEventListener('click', colorPixel);
+const color = document.getElementById('pen-color');     // Adds event listener for color picker
+color.addEventListener('change', () => {        // Sets the color
+    
+    currentColor = document.getElementById('pen-color').value
+});
 
-for (let i = 0; i < pixels.length; i++) {       // Adds event listener for each pixel
+for (let i = 0; i < pixels.length; i++) {       // Adds event listener for each default pixel
 
-    pixels[i].addEventListener('mouseenter', (colorDrag));
-    pixels[i].addEventListener('click', (colorClick));
+    pixels[i].addEventListener('mouseenter', pixelDrag);
+    pixels[i].addEventListener('click', pixelClick);
 };
 
-function colorPixel() {     // Adds event listener for each pixel
+document.addEventListener('click', e => {       // Adds event listener for each grid size
 
     for (let i = 0; i < pixels.length; i++) {
 
-        pixels[i].addEventListener('mouseenter', (colorDrag));
-        pixels[i].addEventListener('click', (colorClick));
+        pixels[i].addEventListener('mouseenter', pixelDrag);
+        pixels[i].addEventListener('click', pixelClick);
     };
-}
+});
 
-function colorDrag(e) {     // Adds color when mousedown & drag
+function pixelDrag(e) {     // Adds color when mousedown & drag
+
+    const pixel = e.currentTarget;
+    const pixelR = e.currentTarget.nextElementSibling;
+    const pixelL = e.currentTarget.previousElementSibling;
+    const pixelsMain = [pixel, pixelR, pixelL];
     
-    if (mouseDown > 0 && eraserOn == false && penSize == 1) {        // Pen is small
+    if (mouseDown > 0 && penOn == true && penSize == 1) {        // Pen is small
 
-        const pixel = e.currentTarget;
-
-        pixel.style.backgroundColor = 'var(--black)';
+        pixel.style.backgroundColor = `${currentColor}`;
 
     } else if (mouseDown > 0 && eraserOn == false && penSize == 2) {     // Pen is medium
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
 
-        pixel.style.backgroundColor = 'var(--black)';
-        pixelR.style.backgroundColor = 'var(--black)';
+        pixel.style.backgroundColor = `${currentColor}`;
+        pixelR.style.backgroundColor = `${currentColor}`;
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
+
             if (pixels[j] == pixel) {
+
                 let pixelUC = pixels[j - padSize];
-                pixelUC.style.backgroundColor = 'var(--black)';
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--black)';
+
+                pixelUC.style.backgroundColor = `${currentColor}`;
+                pixelUR.style.backgroundColor = `${currentColor}`;
             }
         }
 
-    } else if (mouseDown > 0 && eraserOn == false && penSize == 3) {     // Pen is large
+    } else if (mouseDown > 0 && penOn == true && penSize == 3) {     // Pen is large
 
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
-        const pixelL = e.currentTarget.previousElementSibling;
-
-        pixel.style.backgroundColor = 'var(--black)';
-        pixelR.style.backgroundColor = 'var(--black)';
-        pixelL.style.backgroundColor = 'var(--black)';
+        pixelsMain.forEach(pix => pix.style.backgroundColor = `${currentColor}`);
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
 
             if (pixels[j] == pixel) {
 
-                let pixelUC = pixels[j - padSize];      // Up
-                pixelUC.style.backgroundColor = 'var(--black)';
-
+                let pixelUC = pixels[j - padSize];
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--black)';
-
                 let pixelUL = pixels[(j - 1) - padSize];
-                pixelUL.style.backgroundColor = 'var(--black)';
-
-                let pixelDL = pixels[j + (padSize - 1)];        // Down
-                pixelDL.style.backgroundColor = 'var(--black)';
-
-                let pixelDR = pixels[j + ((padSize*1) + 1)];
-                pixelDR.style.backgroundColor = 'var(--black)';
-
                 let pixelDC = pixels[j + (padSize*1)];
-                pixelDC.style.backgroundColor = 'var(--black)';
+                let pixelDR = pixels[j + ((padSize*1) + 1)];
+                let pixelDL = pixels[j + (padSize - 1)];
+
+                const pixelsAll = [pixelUC, pixelUR, pixelUL, pixelDC, pixelDR, pixelDL]
+
+                pixelsAll.forEach(pix => pix.style.backgroundColor = `${currentColor}`);
             }
         }
 
     } else if (mouseDown > 0 && eraserOn == true && penSize == 1) {     // Eraser is small
 
-        const pixel = e.currentTarget;
-
-        pixel.style.backgroundColor = 'var(--white)';
+        pixel.style.backgroundColor = '';
 
     } else if (mouseDown > 0 && eraserOn == true && penSize == 2) {     // Eraser is medium
-        console.log(mouseDown)
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
 
-        pixel.style.backgroundColor = 'var(--white)';
-        pixelR.style.backgroundColor = 'var(--white)';
+        pixel.style.backgroundColor = '';
+        pixelR.style.backgroundColor = '';
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
 
             if (pixels[j] == pixel) {
 
                 let pixelUC = pixels[j - padSize];
-                pixelUC.style.backgroundColor = 'var(--white)';
-
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--white)';
+
+                pixelUC.style.backgroundColor = '';
+                pixelUR.style.backgroundColor = '';
             }
         }
 
     } else if (mouseDown > 0 && eraserOn == true && penSize == 3) {     // Eraser is large
 
-
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
-        const pixelL = e.currentTarget.previousElementSibling;
-
-        pixel.style.backgroundColor = 'var(--white)';
-        pixelR.style.backgroundColor = 'var(--white)';
-        pixelL.style.backgroundColor = 'var(--white)';
+        pixelsMain.forEach(pix => pix.style.backgroundColor = '');
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
 
             if (pixels[j] == pixel) {
 
-                let pixelUC = pixels[j - padSize];      // Up
-                pixelUC.style.backgroundColor = 'var(--white)';
-
+                let pixelUC = pixels[j - padSize];
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--white)';
-
                 let pixelUL = pixels[(j - 1) - padSize];
-                pixelUL.style.backgroundColor = 'var(--white)';
-
-                let pixelDL = pixels[j + (padSize - 1)];        // Down
-                pixelDL.style.backgroundColor = 'var(--white)';
-
-                let pixelDR = pixels[j + ((padSize*1) + 1)];
-                pixelDR.style.backgroundColor = 'var(--white)';
-
                 let pixelDC = pixels[j + (padSize*1)];
-                pixelDC.style.backgroundColor = 'var(--white)';
+                let pixelDR = pixels[j + ((padSize*1) + 1)];
+                let pixelDL = pixels[j + (padSize - 1)];
+
+                const pixelsAll = [pixelUC, pixelUR, pixelUL, pixelDC, pixelDR, pixelDL]
+
+                pixelsAll.forEach(pix => pix.style.backgroundColor = '');
             }
         }
 
@@ -296,127 +205,103 @@ function colorDrag(e) {     // Adds color when mousedown & drag
     }
 };
 
-function colorClick(e) {        // Adds color on click
-
-    if (eraserOn == false && penSize == 1) {
+function pixelClick(e) {        // Adds color on click
 
     const pixel = e.currentTarget;
+    const pixelR = e.currentTarget.nextElementSibling;
+    const pixelL = e.currentTarget.previousElementSibling;
+    const pixelsMain = [pixel, pixelR, pixelL];
 
-    pixel.style.backgroundColor = 'var(--black)';
+    if (penOn == true && penSize == 1) {        // Pen is small
 
-    } else if (eraserOn == false && penSize == 2) {
+    pixel.style.backgroundColor = `${currentColor}`;
 
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
+    } else if (penOn == true && penSize == 2) {     // Pen is medium
 
-        pixel.style.backgroundColor = 'var(--black)';
-        pixelR.style.backgroundColor = 'var(--black)';
+        pixel.style.backgroundColor = `${currentColor}`;
+        pixelR.style.backgroundColor = `${currentColor}`;
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
+
             if (pixels[j] == pixel) {
 
                 let pixelUC = pixels[j - padSize];
-                pixelUC.style.backgroundColor = 'var(--black)';
-
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--black)';
+
+                pixelUC.style.backgroundColor = `${currentColor}`;
+                pixelUR.style.backgroundColor = `${currentColor}`;
             }
         }
 
-    } else if (eraserOn == false && penSize == 3) {     // Pen is large
+    } else if (penOn == true && penSize == 3) {     // Pen is large
 
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
-        const pixelL = e.currentTarget.previousElementSibling;
-
-        pixel.style.backgroundColor = 'var(--black)';
-        pixelR.style.backgroundColor = 'var(--black)';
-        pixelL.style.backgroundColor = 'var(--black)';
+        pixelsMain.forEach(pix => pix.style.backgroundColor = `${currentColor}`);
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
 
             if (pixels[j] == pixel) {
 
-                let pixelUC = pixels[j - padSize];      // Up
-                pixelUC.style.backgroundColor = 'var(--black)';
-
+                let pixelUC = pixels[j - padSize];
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--black)';
-
                 let pixelUL = pixels[(j - 1) - padSize];
-                pixelUL.style.backgroundColor = 'var(--black)';
-
-                let pixelDL = pixels[j + (padSize - 1)];        // Down
-                pixelDL.style.backgroundColor = 'var(--black)';
-
-                let pixelDR = pixels[j + ((padSize*1) + 1)];
-                pixelDR.style.backgroundColor = 'var(--black)';
-
                 let pixelDC = pixels[j + (padSize*1)];
-                pixelDC.style.backgroundColor = 'var(--black)';
+                let pixelDR = pixels[j + ((padSize*1) + 1)];
+                let pixelDL = pixels[j + (padSize - 1)];
+
+                const pixelsAll = [pixelUC, pixelUR, pixelUL, pixelDC, pixelDR, pixelDL]
+
+                pixelsAll.forEach(pix => pix.style.backgroundColor = `${currentColor}`);
             }
         }
 
     } else if (eraserOn == true && penSize == 1) {     // Eraser is small
 
-        const pixel = e.currentTarget;
-
-        pixel.style.backgroundColor = 'var(--white)';
+        pixel.style.backgroundColor = '';
 
     } else if (eraserOn == true && penSize == 2) {     // Eraser is medium
 
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
-
-        pixel.style.backgroundColor = 'var(--white)';
-        pixelR.style.backgroundColor = 'var(--white)';
+        pixel.style.backgroundColor = '';
+        pixelR.style.backgroundColor = '';
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
 
             if (pixels[j] == pixel) {
 
                 let pixelUC = pixels[j - padSize];
-                pixelUC.style.backgroundColor = 'var(--white)';
-
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--white)';
+
+                pixelUC.style.backgroundColor = '';
+                pixelUR.style.backgroundColor = '';
             }
         }
 
     } else if (eraserOn == true && penSize == 3) {     // Eraser is large
 
-        const pixel = e.currentTarget;
-        const pixelR = e.currentTarget.nextElementSibling;
-        const pixelL = e.currentTarget.previousElementSibling;
-
-        pixel.style.backgroundColor = 'var(--white)';
-        pixelR.style.backgroundColor = 'var(--white)';
-        pixelL.style.backgroundColor = 'var(--white)';
+        pixelsMain.forEach(pix => pix.style.backgroundColor = '');
 
         for (let j = 0; j < pixels.length; j++) {       // Loops and fill upper left & right pixels
 
             if (pixels[j] == pixel) {
 
-                let pixelUC = pixels[j - padSize];      // Up
-                pixelUC.style.backgroundColor = 'var(--white)';
-
+                let pixelUC = pixels[j - padSize];
                 let pixelUR = pixels[j - (padSize - 1)];
-                pixelUR.style.backgroundColor = 'var(--white)';
-
                 let pixelUL = pixels[(j - 1) - padSize];
-                pixelUL.style.backgroundColor = 'var(--white)';
-
-                let pixelDL = pixels[j + (padSize - 1)];        // Down
-                pixelDL.style.backgroundColor = 'var(--white)';
-
-                let pixelDR = pixels[j + ((padSize*1) + 1)];
-                pixelDR.style.backgroundColor = 'var(--white)';
-
                 let pixelDC = pixels[j + (padSize*1)];
-                pixelDC.style.backgroundColor = 'var(--white)';
+                let pixelDR = pixels[j + ((padSize*1) + 1)];
+                let pixelDL = pixels[j + (padSize - 1)];
+
+                const pixelsAll = [pixelUC, pixelUR, pixelUL, pixelDC, pixelDR, pixelDL]
+
+                pixelsAll.forEach(pix => pix.style.backgroundColor = '');
             }
         }
 
+    } else if (fillOn == true) {
+
+        for (let i = 0; i < pixels.length; i++){
+
+            pixels[i].style.backgroundColor = `${currentColor}`;
+        }
     } else {
         return
     }
@@ -425,22 +310,102 @@ function colorClick(e) {        // Adds color on click
 // Style sections
 
 const eraser = document.getElementById('eraser');       // Style variables
+const pen = document.getElementById('pen');
 const penS = document.getElementById('pen-s');
 const penM = document.getElementById('pen-m');
 const penL = document.getElementById('pen-l');
+const grid = document.getElementById('grid');
+const colorFill = document.getElementById('fill');
 
-eraser.addEventListener('click', () => { eraserOn = true });        // Event listener to set pen size & eraser on
-penS.addEventListener('click', () => { penSize = 1; eraserOn = false });
-penM.addEventListener('click', () => { penSize = 2; eraserOn = false });
-penL.addEventListener('click', () => { penSize = 3; eraserOn = false });
+styleBtns.forEach(button => button.addEventListener('click', styleSelect));     // Event listeners for style select
 
-eraser.addEventListener('click', styleSelect);      // Event listeners for style select
-penS.addEventListener('click', styleSelect);
-penM.addEventListener('click', styleSelect);
-penL.addEventListener('click', styleSelect);
+grid.style.borderWidth = '0 0 5px 0';       // Sets default style highlight
+pen.style.borderWidth = '0 0 5px 0';
+penS.style.borderWidth = '0 0 5px 0';
 
-function styleSelect(e) {       // Set style of on click
+function styleSelect(e) {       // Set style highlight\ on click
 
-    mainCont.setAttribute('class', '');
-    mainCont.classList.add(this.id);
+    if (e.currentTarget.id == 'pen') {      // Higlights pen and clears eraser higlight
+
+        penOn = true;
+        eraserOn = false;
+        fillOn = false;
+
+        eraser.style.borderWidth = '0';
+        colorFill.style.borderWidth = '0';
+
+        e.currentTarget.style.borderWidth = '0 0 5px 0';
+
+    } else if (e.currentTarget.id == 'eraser') {        // Higlights eraser and clears pen higlight
+       
+        penOn = false;
+        eraserOn = true;
+        fillOn = false;
+
+        pen.style.borderWidth = '0px';
+        colorFill.style.borderWidth = '0';
+
+        e.currentTarget.style.borderWidth = '0 0 5px 0'; 
+
+    } else if (e.currentTarget.id == 'fill') {
+
+        penOn = false;
+        eraserOn = false;
+        fillOn = true;
+        pen.style.borderWidth = '0px';
+        eraser.style.borderWidth = '0';
+
+        e.currentTarget.style.borderWidth = '0 0 5px 0'; 
+    }
+
+    if (e.currentTarget.id == 'pen-s') {        // Higlights s-pixel and clears other size higlight
+
+        penSize = 1;
+
+        penM.style.borderWidth = '0';
+        penL.style.borderWidth = '0';
+
+        e.currentTarget.style.borderWidth = '0 0 5px 0';        
+
+    } else if (e.currentTarget.id == 'pen-m') {     // Higlights m-pixel and clears other size higlight
+
+        penSize = 2;
+
+        penS.style.borderWidth = '0';
+        penL.style.borderWidth = '0';
+
+        e.currentTarget.style.borderWidth = '0 0 5px 0';
+
+    } else if (e.currentTarget.id == 'pen-l') {     // Higlights l-pixel and clears other size higlight
+
+        penSize = 3;
+
+        penS.style.borderWidth = '0';
+        penM.style.borderWidth = '0';
+
+        e.currentTarget.style.borderWidth = '0 0 5px 0';
+    }
+
+    if (e.currentTarget.id == 'grid' && gridOn == true) {       // Turns grid off
+
+        gridOn = false;
+        grid.style.borderWidth = '0';
+
+        for (let i = 0; i < pixels.length; i++) {       // Removes grid-class to each pixel
+
+            pixels[i].classList.remove('pixels-grid');
+            pixels[i].classList.add('pixels-no-grid');
+        };
+
+    } else if (e.currentTarget.id == 'grid' && gridOn == false) {        // Turns grid on
+
+        gridOn = true;
+        grid.style.borderWidth = '0 0 5px 0';
+
+        for (let i = 0; i < pixels.length; i++) {       // Adds grid-class to each pixel
+
+            pixels[i].classList.remove('pixels-no-grid');
+            pixels[i].classList.add('pixels-grid');
+        };
+    }
 }

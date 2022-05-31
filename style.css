@@ -2,13 +2,18 @@
     --black: #222;
     --white: #eee;
     --light-grey: #aaa;
+    --pen-color: #222222;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--black);
     color: var(--white);
-    text-align: center;    
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 main {
@@ -31,31 +36,56 @@ div {
 /* Size selector */
 
 #sketch-size {
-    grid-template-columns: 160px 160px 160px 160px 160px;
-    grid-template-rows: 50px;
+    grid-template-columns: 250px 350px 150px;
+    grid-template-rows: 40px;
     border-radius: 20px 20px 0 0;
     border: solid var(--light-grey);
     border-width: 20px 20px 0 20px;
     background-color: var(--light-grey);
 }
 
-.size-cont-style {
+.size-cont {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.size-cont {
     background-color: var(--white);
 }
 
-.size-cont:first-child {
-    margin-left: 10px;
+#slider-text-cont {
+    display: grid;
+    grid-template-columns: 20% 10% 20% 5% 20%;
 }
 
-.size-select {
-    background-color: var(--black);
-    color: var(--white);
+#slider-size-cont{
+    gap: 10px;
+    padding-right: 20px;
+}
+
+#slider {
+    -webkit-appearance: none; 
+    width: 80%;
+    height: 30%;
+    background: var(--light-grey);
+    border: 0px solid var(--black);
+    border-radius: 20px;
+}
+
+#slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--black);
+    border-radius: 20px;
+    cursor: pointer;
+}
+  
+#slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--black);
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 #clear {
@@ -65,57 +95,46 @@ div {
 
 /* Grid/Sketch-Pad */
 
+#main-cont {
+    padding: 0;
+}
+
 #sketch-pad {
-    width: 800px;
-    height: 800px;
+    width: 750px;
+    height: 750px;
     background-color: var(--white);
     border: solid var(--light-grey);
     border-width: 10px 20px;
     display: grid;
+
 }
 
 .grid-pixels {
-    border: 1px dotted var(--light-grey);
     background-color: var(--white);
 }
 
-.grid-20 {
-    grid-template-columns: repeat(20, 1fr);
-    grid-template-rows: repeat(20, 1fr);
+.pixels-grid {
+    border: 1px dotted var(--light-grey);
 }
 
-.grid-40 {
-    grid-template-columns: repeat(40, 1fr);
-    grid-template-rows: repeat(40, 1fr);
-}
-
-.grid-60 {
-    grid-template-columns: repeat(60, 1fr);
-    grid-template-rows: repeat(60, 1fr);
-}
-
-.grid-80 {
-    grid-template-columns: repeat(80, 1fr);
-    grid-template-rows: repeat(80, 1fr);
+.pixels-no-grid {
+    border: 0px dotted var(--light-grey);
 }
 
 /* Style Controls */
 
 #controls-cont {
-    grid-template-columns: 400px 400px;
+    display: flex;
+    gap: 40px;
+    width: 730px;
+    height: 50px;
+    justify-content: center;
+    margin: 0 10px;
+    padding: 10px;
     border: solid var(--light-grey);
     border-width: 0 20px 20px 20px;
     border-radius: 0 0 20px 20px;
-    background-color: var(--light-grey)
-}
-
-.controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: var(--white);
-    height: 50px;
-    margin: 0 10px;
 }
 
 #color-cont {
@@ -123,34 +142,70 @@ div {
     border-width: 0 10px 0 0;
 }
 
-#pen-cont{
-    justify-content: space-evenly;
-    padding-left: 20px;
+#pen-color {
+    height: 40px;
+    width: 40px;
+    border: 0;
+}
+
+#fill-img {
+    width: 40px;
+}
+
+#pixel-size-cont {
+    display: flex;
+    gap: 15px;
+    margin-right: 10px;
 }
 
 .style-img {
-    height: auto;
-    width: 70%;
+    width: 30px;
     transition: 0.2s;
+}
+
+.main-tools {
+    width: 70px;
 }
 
 .style-img:hover {
     transform: scale(1.1);
 }
 
+.controls {
+    border: 0 solid var(--black);
+    padding: 0 0 8px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#grid {
+    border: 0 solid var(--black);
+}
+
+label {
+    font-size: 24px;
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+#pen-color {
+    border: 0;
+}
+
 /* Text */
 
 h1 {
-    font-size: 72px;
+    font-size: 64px;
     margin: 36px 0;
 }
 
 h2 {
     margin: 0;
-    font-size: 28px;
+    font-size: 26px;
 }
 
 h3 {
     margin: 0;
-    font-size: 24px;
+    font-size: 22px;
 }

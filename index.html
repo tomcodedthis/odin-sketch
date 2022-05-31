@@ -9,51 +9,69 @@
 
     <body>
         <header>
-            <h1 id="title">iSketch</h1>
+            <h1 id="title">i-Sketch</h1>
         </header>
 
         <main>
             <div id="sketch-size">
-                <div id="400" class="size-cont size-cont-style" >
-                    <h3 class="size-text">20 x 20</h3>
+
+                <div id="slider-text-cont" class="size-cont">
+                    <h3>Size</h3>
+                    <h3>=</h3>
+                    <h3 class="slide-value">30</h3>
+                    <h3>x</h3>
+                    <h3 class="slide-value">30</h3>
                 </div>
-                <div id="1600" class="size-cont size-cont-style">
-                    <h3 class="size-text">40 x 40</h3>
+
+                <div id="slider-size-cont" class="size-cont">
+                    <h3>5</h3>
+                    <input id="slider" type="range" min="5" max="100" value="30">
+                    <h3>100</h3>
                 </div>
-                <div id="3600" class="size-cont size-cont-style">
-                    <h3 class="size-text">60 x 60</h3>
-                </div>
-                <div id="6400" class="size-cont size-cont-style">
-                    <h3 class="size-text">80 x 80</h3>
-                </div>
-                <div id="clear" class="size-cont-style">
+
+                <div id="clear" class="size-cont">
                     <h3 class="size-text">Clear</h3>
                 </div>
             </div>
 
-            <div id="main-cont">
-                <div id="sketch-pad">
-                </div>
+            <div id="sketch-pad">
             </div>
+
             <div id="controls-cont">
-                <div id="color-cont" class="controls">
-                    <h2>Colors</h2>
+
+                <div id="color" class="controls">
+                    <input id="pen-color" type="color" name="pen-color" value="#222222">
                 </div>
-                <div id="pen-cont" class="controls">
-                    <div id="pen-s" class="style-img-cont">
-                        <img src="./images/pen(s).png" alt="pen-small" id="pen-s" class="style-img">
+
+                <div id="pixel-size-cont">
+                    <div id="pen-s" class="controls pixel-cont">
+                        <img src="./images/pixel(s).png" alt="pen-small" id="pen-s" class="style-img pen-size">
                     </div>
-                    <div id="pen-m" class="style-img-cont">
-                        <img src="./images/pen(m).png" alt="pen-medium" id="pen-m" class="style-img">
+                    <div id="pen-m" class="controls pixel-cont">
+                        <img src="./images/pixel(m).png" alt="pen-medium" id="pen-m" class="style-img pen-size">
                     </div>
-                    <div id="pen-l" class="style-img-cont">
-                        <img src="./images/pen(L).png" alt="pen-large" id="pen-l" class="style-img">
+                    <div id="pen-l" class="controls pixel-cont">
+                        <img src="./images/pixel(L).png" alt="pen-large" id="pen-l" class="style-img pen-size">
                     </div>
-                    <div id="eraser" class="style-img-cont">
-                        <img src="./images/eraser.png" alt="eraser" id="eraser" class="style-img">
-                    </div>
+                </div>
+
+                <div id="fill" class="controls">
+                    <img src="./images/fill.png" alt="color-fill" id="fill-img" class="style-img">
+                </div>
+
+                <div id="pen" class="style-img-cont controls">
+                    <img src="./images/pen(L).png" alt="pen-large" id="pen-img" class="main-tools style-img">
+                </div>
+
+                <div id="eraser" class="style-img-cont controls">
+                    <img src="./images/eraser.png" alt="eraser" id="eraser-img" class="main-tools style-img">
+                </div>
+
+                <div id="grid" class="style-img-cont controls">
+                    <img src="./images/grid.png" alt="grid" id="grid-img" class="style-img">
                 </div>
             </div>
+
         </main>
     </body>
     <script type="text/javascript" src="script.js"></script>
