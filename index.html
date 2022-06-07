@@ -13,31 +13,12 @@
         </header>
 
         <main>
-            <div id="sketch-size">
-
-                <div id="slider-text-cont" class="size-cont">
-                    <h3>Size</h3>
-                    <h3>=</h3>
-                    <h3 class="slide-value">30</h3>
-                    <h3>x</h3>
-                    <h3 class="slide-value">30</h3>
-                </div>
-
-                <div id="slider-size-cont" class="size-cont">
-                    <h3>5</h3>
-                    <input id="slider" type="range" min="5" max="100" value="30">
-                    <h3>100</h3>
-                </div>
-
-                <div id="clear" class="size-cont">
-                    <h3 class="size-text">Clear</h3>
-                </div>
-            </div>
-
-            <div id="sketch-pad">
-            </div>
 
             <div id="controls-cont">
+
+                <div id="grid" class="style-img-cont controls">
+                    <img src="./images/grid.png" alt="grid" id="grid-img" class="style-img">
+                </div>
 
                 <div id="color" class="controls">
                     <input id="pen-color" type="color" name="pen-color" value="#222222">
@@ -60,19 +41,49 @@
                 </div>
 
                 <div id="pen" class="style-img-cont controls">
-                    <img src="./images/pen(L).png" alt="pen-large" id="pen-img" class="main-tools style-img">
+                    <img src="./images/pen(s).png" alt="pen-large" id="pen-img" class="main-tools style-img">
                 </div>
 
                 <div id="eraser" class="style-img-cont controls">
                     <img src="./images/eraser.png" alt="eraser" id="eraser-img" class="main-tools style-img">
                 </div>
+            </div>
 
-                <div id="grid" class="style-img-cont controls">
-                    <img src="./images/grid.png" alt="grid" id="grid-img" class="style-img">
+            <div id="sketch-pad">
+            </div>
+
+            <div id="sketch-size">
+
+                <div id="clear" class="size-cont style-img">
+                    <h3 class="size-text">Clear</h3>
+                </div>
+
+                <div id="undo-cont" class="size-cont">
+                    <div class="undo controls" id="undo-btn"><img src="./images/undo.png" alt="undo" class="undoredo style-img"></div>
+                    <div class="undo controls" id="redo-btn"><img src="./images/redo.png" alt="redo" class="undoredo style-img"></div>
+                </div>
+
+                <div id="slider-text-cont" class="size-cont">
+                    <h3 class="slide-value">25</h3>
+                    <h3>x</h3>
+                    <h3 class="slide-value">25</h3>
+                </div>
+
+                <div id="slider-size-cont" class="size-cont">
+                    <h3>75</h3>
+                    <input id="slider" type="range" min="5" max="75" value="25" orient="vertical" >
+                    <h3>5</h3>
                 </div>
             </div>
 
         </main>
+
+        <footer>
+            <h4>CMD/CTRL + Z</h4>
+            <h4>CMD/CTRL + SHIFT + Z</h4>
+            <h4>W / E / F / G</h4>
+            <h4>1 / 2 / 3</h4>
+        </footer>
     </body>
     <script type="text/javascript" src="script.js"></script>
 </html>

@@ -1,12 +1,13 @@
 :root {
-    --black: #222;
+    --black: #111116;
     --white: #eee;
-    --light-grey: #aaa;
+    --light-grey: #bbb;
     --pen-color: #222222;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial Black, Helvetica, sans-serif;
+    letter-spacing: 0.05rem;
     background-color: var(--black);
     color: var(--white);
     text-align: center;
@@ -18,7 +19,6 @@ body {
 
 main {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 0;
@@ -33,41 +33,62 @@ div {
     color: var(--black);
 }
 
+header {
+    margin: 10vh 0 10px 0;
+    width: 400px;
+}
+
 /* Size selector */
 
 #sketch-size {
-    grid-template-columns: 250px 350px 150px;
-    grid-template-rows: 40px;
-    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 75px;
+    height: 750px;
+    padding: 0 10px;
     border: solid var(--light-grey);
-    border-width: 20px 20px 0 20px;
-    background-color: var(--light-grey);
+    border-width: 7px 7px 7px 0;
+    border-radius: 0 20px 20px 0;
+    background-color: var(--white);
+}
+
+#clear {
+    padding: 10px;
+    width: 100%;
 }
 
 .size-cont {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    background-color: var(--white);
 }
 
 #slider-text-cont {
-    display: grid;
-    grid-template-columns: 20% 10% 20% 5% 20%;
+    display: flex;
+    flex-direction: column;
+    height: 120px;
 }
 
 #slider-size-cont{
-    gap: 10px;
-    padding-right: 20px;
+    display: grid;
+    grid-template-rows: 10% 80% 10%;
+    gap: 0px;
+    height: 300px;
+    width: 70px;
 }
 
 #slider {
-    -webkit-appearance: none; 
-    width: 80%;
-    height: 30%;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 200px;
+    height: 10px;
     background: var(--light-grey);
     border: 0px solid var(--black);
     border-radius: 20px;
+    transform: rotate(270deg);
 }
 
 #slider::-webkit-slider-thumb {
@@ -88,10 +109,21 @@ div {
     cursor: pointer;
 }
 
-#clear {
-    margin: 0 10px 0 20px;
-    background-color: var(--white);
+#undo-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
+
+.undo {
+    width: 40px;
+    height: 50px;
+}
+
+.undoredo {
+    width: 100%;
+}
+
 
 /* Grid/Sketch-Pad */
 
@@ -104,9 +136,8 @@ div {
     height: 750px;
     background-color: var(--white);
     border: solid var(--light-grey);
-    border-width: 10px 20px;
+    border-width: 7px 20px;
     display: grid;
-
 }
 
 .grid-pixels {
@@ -125,15 +156,15 @@ div {
 
 #controls-cont {
     display: flex;
-    gap: 40px;
-    width: 730px;
-    height: 50px;
-    justify-content: center;
-    margin: 0 10px;
-    padding: 10px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 75px;
+    height: 750px;
+    padding: 0 10px;
     border: solid var(--light-grey);
-    border-width: 0 20px 20px 20px;
-    border-radius: 0 0 20px 20px;
+    border-width: 7px 0 7px 7px;
+    border-radius: 20px 0 0 20px;
     background-color: var(--white);
 }
 
@@ -154,33 +185,48 @@ div {
 
 #pixel-size-cont {
     display: flex;
+    flex-direction: column;
     gap: 15px;
-    margin-right: 10px;
 }
 
 .style-img {
-    width: 30px;
+    width: 40px;
     transition: 0.2s;
-}
-
-.main-tools {
-    width: 70px;
 }
 
 .style-img:hover {
     transform: scale(1.1);
 }
 
+.pen-size {
+    width: 35px;
+}
+
+#fill-img {
+    width: 45px;
+}
+
+#pen-img {
+    height: 65px;
+    width: 50px;
+}
+
+#eraser-img {
+    height: 60px;
+    width: 30px;
+}
+
 .controls {
     border: 0 solid var(--black);
-    padding: 0 0 8px 0;
+    width: 40px;
+    padding: 0 8px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#grid {
-    border: 0 solid var(--black);
+#grid-img {
+    width: 40px;
 }
 
 label {
@@ -192,20 +238,20 @@ label {
 #pen-color {
     border: 0;
 }
-
 /* Text */
 
 h1 {
-    font-size: 64px;
-    margin: 36px 0;
+    font-size: 42px;
+    margin: 0;
+    letter-spacing: 0.3rem;
 }
 
 h2 {
     margin: 0;
-    font-size: 26px;
+    font-size: 24px;
 }
 
 h3 {
     margin: 0;
-    font-size: 22px;
+    font-size: 20px;
 }
